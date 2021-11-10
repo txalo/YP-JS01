@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YO PROGRAMO - JavaScript </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+    <main>
+        <h1>Adivina la carta!</h1>
+        <section id="board-container">
+            <div id="board">
+                <div id="input">
+                    <input type="text" id="tried">
+                    <button id="guess">Adivinar</button>
+                </div>
+                <div id="hints-container">
+                    <div id="actual">
+                        <span>?</span>                        
+                    </div>
+                    <div id="hints">
+                        <span id="greater"> MAYOR </span>
+                        <span id="correct">CORRECTO</span>
+                        <span id="less">MENOR</span>
+                    </div>
+                </div>
+            </div>
+            <div id="status">
+                <div id="attempts">
+                    <h2>total intentos</h2>
+                    <span>0</span>
+                </div>
+                <div id="guesses">
+                    <h2>intentos por carta</h2>
+                    <div id="cards">
+                        <span id="card-1" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-2" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-3" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-4" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-5" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-6" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-7" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-8" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-9" class="clear"><i class="fa fa-star"></i></span>
+                        <span id="card-10" class="clear"><i class="fa fa-star"></i></span>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+    
+</body>
+
+</html>

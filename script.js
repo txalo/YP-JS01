@@ -13,6 +13,20 @@ let totalAttempts = 0;
 let currentAttempts = 0;
 let round = 0;
 
+let stars = 
+{
+    "1" : ["gold", "gold", "gold", "silver", "silver", "silver", "bronze", "bronze", "bronze", "black"],
+    "2" : ["gold", "gold", "gold", "silver", "silver", "silver", "bronze", "bronze", "bronze", "black"],
+    "3" : ["gold", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
+    "4" : ["gold", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
+    "5" : ["gold", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
+    "6" : ["gold", "silver", "silver", "bronze", "bronze", "black", "black", "black", "black", "black"],
+    "7" : ["gold", "silver", "bronze", "bronze", "black", "black", "black", "black", "black", "black"],
+    "8" : ["gold", "silver", "bronze", "bronze", "black", "black", "black", "black", "black", "black"],
+    "9" : ["gold", "silver", "bronze", "black", "black", "black", "black", "black", "black", "black"],
+    "10" : ["gold", "silver", "bronze", "black", "black", "black", "black", "black", "black", "black"],
+}
+
 function startGame() {
     pickCard();
     attempts = 0;
@@ -51,6 +65,10 @@ function hideCard() {
     $currentCard.classList.remove("ok");
 }
 
+function getRating() {
+    return stars[round][((currentAttempts > 10)? 10 : currentAttempts) - 1];
+}
+
 $guessBTN.onclick = function () {
     hideHints();
     let number = $guessInput.value;
@@ -66,8 +84,8 @@ $guessBTN.onclick = function () {
             hideCard();
         }, 1500);
         hideHints();
-        document.getElementById("card-"+round).classList.add("done");
-        document.getElementById("card-"+round).innerHTML = `<span>${currentAttempts}</span>`;
+        //document.getElementById("card-"+round).classList.add("done");
+        document.getElementById("card-"+round).innerHTML = `<i class="fa fa-star ${getRating()}"></i>`;
         round++;        
         currentAttempts = 0;
     } else if (result < 0) {

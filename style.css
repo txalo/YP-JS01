@@ -158,9 +158,30 @@ h1 {
     padding: .5rem 2rem;
 }
 
+#guesses #cards span i{
+    font-size: 2rem;
+    color: #efefef;
+}
+
 #guesses #cards .clear {
     font-size: 16px;
     color: #dedede;
+}
+
+#guesses #cards i.gold{
+    color: gold;    
+}
+
+#guesses #cards .silver{
+    color: silver;
+}
+
+#guesses #cards .bronze{
+    color: #cd7f32;
+}
+
+#guesses #cards .black{
+    color: black;
 }
 
 #guesses #cards .done{

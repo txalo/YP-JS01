@@ -7,40 +7,47 @@ const $hintGreater = document.getElementById("greater");
 const $currentCard = document.getElementById("actual");
 const $attemptCounter = document.querySelector("#attempts span");
 
-let cardsNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-let currentCard;
-let totalAttempts = 0;
-let currentAttempts = 0;
-let round = 0;
+let GameStatus = 
+{
+    cardsNumbers : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],    
+    totalAttempts : 0,
+    round : 0,
+    currentRound : {
+        card : "",
+        attempts : 0,
+        number : "",
+        result : ""
+    }
+}
 
 let stars = 
 {
-    "1" : ["gold", "gold", "gold", "silver", "silver", "silver", "bronze", "bronze", "bronze", "black"],
-    "2" : ["gold", "gold", "gold", "silver", "silver", "silver", "bronze", "bronze", "bronze", "black"],
-    "3" : ["gold", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
-    "4" : ["gold", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
-    "5" : ["gold", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
-    "6" : ["gold", "silver", "silver", "bronze", "bronze", "black", "black", "black", "black", "black"],
-    "7" : ["gold", "silver", "bronze", "bronze", "black", "black", "black", "black", "black", "black"],
-    "8" : ["gold", "silver", "bronze", "bronze", "black", "black", "black", "black", "black", "black"],
-    "9" : ["gold", "silver", "bronze", "black", "black", "black", "black", "black", "black", "black"],
+    "1" : ["diamond", "gold", "gold", "silver", "silver", "silver", "bronze", "bronze", "bronze", "black"],
+    "2" : ["diamond", "gold", "gold", "silver", "silver", "silver", "bronze", "bronze", "bronze", "black"],
+    "3" : ["diamond", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
+    "4" : ["diamond", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
+    "5" : ["diamond", "gold", "silver", "silver", "bronze", "bronze", "bronze", "black", "black", "black"],
+    "6" : ["diamond", "gold", "silver", "silver", "bronze", "bronze", "black", "black", "black", "black"],
+    "7" : ["diamond","gold", "silver", "bronze", "bronze", "black", "black", "black", "black", "black"],
+    "8" : ["diamond","gold", "silver", "bronze", "bronze", "black", "black", "black", "black", "black"],
+    "9" : ["diamond","gold", "silver", "bronze", "black", "black", "black", "black", "black", "black"],
     "10" : ["gold", "silver", "bronze", "black", "black", "black", "black", "black", "black", "black"],
 }
 
 function startGame() {
     pickCard();
-    attempts = 0;
-    round = 1;
+    GameStatus.totalAttempts = 0;
+    GameStatus.round = 1;
 }
 
 function pickCard() {
-    currentCard = cardsNumbers[Math.floor(Math.random() * cardsNumbers.length)];
-    cardsNumbers.splice(cardsNumbers.indexOf(currentCard), 1);
+    GameStatus.currentRound.card = GameStatus.cardsNumbers[Math.floor(Math.random() * GameStatus.cardsNumbers.length)];
+    GameStatus.cardsNumbers.splice(GameStatus.cardsNumbers.indexOf(GameStatus.currentRound.card), 1);
 }
 
 
 function compareCard(number) {
-    return parseInt(currentCard) - parseInt(number);
+    return parseInt(GameStatus.currentRound.card) - parseInt(number);
 }
 
 function showHint(hintName) {
@@ -61,43 +68,51 @@ function showCard(numero) {
 
 function hideCard() {
     $currentCard.style.transform = "none";
-    $currentCard.innerHTML = `<span>?</span>`;
+    $currentCard.innerHTML = `<span>&nbsp;&nbsp;</span>`;
     $currentCard.classList.remove("ok");
+    hideHints();
 }
 
 function getRating() {
-    return stars[round][((currentAttempts > 10)? 10 : currentAttempts) - 1];
+    return stars[GameStatus.round][((GameStatus.currentRound.attempts > 10)? 10 : GameStatus.currentRound.attempts) - 1];
+}
+
+
+function startRound() {
+    hideHints();
+    GameStatus.currentRound.number = $guessInput.value;
+    GameStatus.currentRound.result = compareCard(GameStatus.currentRound.number);
+}
+
+function updateAttempts() {
+    GameStatus.totalAttempts++;
+    GameStatus.currentRound.attempts++;
+    $attemptCounter.innerHTML = GameStatus.totalAttempts;
 }
 
 $guessBTN.onclick = function () {
-    hideHints();
-    let number = $guessInput.value;
-    let result = compareCard(number);
-    attempts++;
-    currentAttempts++;
-    $attemptCounter.innerHTML = attempts;
-    if (result === 0) {
+    startRound();
+    updateAttempts();    
+    if (GameStatus.currentRound.result === 0) {
         showHint("correct");
-        showCard(currentCard);
+        showCard(GameStatus.currentRound.card);
         pickCard();
         setTimeout(function () {
             hideCard();
-        }, 1500);
-        hideHints();
-        //document.getElementById("card-"+round).classList.add("done");
-        document.getElementById("card-"+round).innerHTML = `<i class="fa fa-star ${getRating()}"></i>`;
-        round++;        
-        currentAttempts = 0;
-    } else if (result < 0) {
+        }, 1500);       
+        
+        document.getElementById("card-"+ GameStatus.round).innerHTML = `<i class="fa fa-star ${getRating()}"></i>`;
+        GameStatus.round++;        
+        GameStatus.currentRound.attempts = 0;
+    } else if (GameStatus.currentRound.result < 0) {
         showHint("less");
         
     } else {
-        showHint("greater");
-        
+        showHint("greater");        
     }
+    $guessInput.focus();
+    $guessInput.value = "";    
 }
 
 startGame();
-
-//let stringP = "13"
-//console.log(stringP.match(/^[0-9]{1,2}([,][0-9]{1,2})?$/g));
+$guessInput.focus();
